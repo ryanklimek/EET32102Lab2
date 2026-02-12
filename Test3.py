@@ -52,6 +52,7 @@ for num in range(num_wires):
         time.sleep(1)
         print(volt)
         res = volt/cur
+        print(res)
         meas_res.append(res)
         i+=1
         time.sleep(120)
