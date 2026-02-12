@@ -1,4 +1,7 @@
-supply.write("OUTPut CH1,ON") 
+import pyvisa
+
+
+supply.write("OUTPut CH1,ON")
 time.sleep(2) 
 amps = [0.01, 0.1, 1] 
 meas_value = [] 
