@@ -1,4 +1,38 @@
-supply.write("OUTPut CH1,ON") 
+import time
+import csv
+
+try:
+    import pyvisa
+    print("\033[1;32;40mImported pyvisa successfully.\033[0m")
+except ModuleNotFoundError:
+    print("\033[1;31;40m" + "ERROR: PyVISA python module required for PCTspice calculations.\nPlease install PyVISA to proceed.\n\nUse the terminal command \"py -m pip install -U pyvisa\" to install using the Python package manager." + "\033[0m")
+    print("\n\033[1;37;40mPress [ENTER] to close terminal.\033[38;5;0m\033[?25l")
+    input()
+    print("\033[0m\033[?25h")
+    exit()
+
+rm = pyvisa.ResourceManager()
+resources = rm.list_resources()
+num_devices = len(resources) - 1
+
+print("\033[1;33;40mDevices found:\t" + str(num_devices) + "\033[0m")
+for device in resources:
+    match device[23:25]:
+        case "DS":
+            oscope = rm.open_resource(device)
+            print("\033[1;33;40mOpened Oscilloscope.\033[0m")
+        case "PD":
+            supply = rm.open_resource(device)
+            print("\033[1;33;40mOpened Power Supply.\033[0m")
+        case "DG":
+            fungen = rm.open_resource(device)
+            print("\033[1;33;40mOpened Function Generator.\033[0m")
+        case "DM":
+            dmm = rm.open_resource(device)
+            print("\033[1;33;40mOpened Multimeter.\033[0m")
+
+
+supply.write("OUTPut CH1,ON")
 time.sleep(2) 
 amps = [0.01, 0.1, 1] 
 meas_value = [] 
