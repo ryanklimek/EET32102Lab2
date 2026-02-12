@@ -1,6 +1,7 @@
 import time
 import csv
 
+
 try:
     import pyvisa
     print("\033[1;32;40mImported pyvisa successfully.\033[0m")
