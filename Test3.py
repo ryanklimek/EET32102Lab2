@@ -67,6 +67,6 @@ supply.write("OUTPut CH1,OFF")
 
 with open('Gabloff_EET321_Lab3_Test3.txt', 'a') as results:
     results.write('Detected Waveforms:\n')
-    for value in meas_value:
+    for value in meas_res:
         results.write(value)
     results.write('\n\n')
