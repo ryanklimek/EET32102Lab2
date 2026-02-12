@@ -1,24 +1,45 @@
-supply.write("OUTPut CH1,ON") 
-time.sleep(2) 
-amps = [0.01, 0.1, 1] 
-meas_value = [] 
-num_wires = 5 
- 
-supply.write("CH1:VOLT 1") 
-for num in range(num_wires): 
-    i = 0 
-    for run in range(3): 
-        string = "CH1:CURRent " + str(amps[i]) 
-        supply.write(string) 
-        value = dmm.query("MEAS:VOLT:DC?") 
-        meas_value.append(value) 
-        i +=1 
-        time.sleep(120) 
-    if num < num_wires: 
-        print("Wire Done. Set up next wire.\n") 
-        input("Press ENTER when next wire is set up.") 
-        time.sleep(5) 
-    else: 
-        print("All wires complete.\n") 
- 
-supply.write("OUTPut CH1,OFF") 
+import PCT_EET320 as pct
+import time
+
+def four_wire(amps):
+    pct.supply.write("OUTPut CH1,OFF")
+    
+    pct.supply.write("CH1:VOLTage 5")
+    pct.supply.write(f"CH1:CURR {amps:.2f}")
+    
+    time.sleep(2)
+    pct.supply.write("OUTPut CH1,ON")
+    time.sleep(2)
+    
+    volts = float(pct.dmm.query("MEAS:VOLT:DC?"))
+    pct.supply.write("OUTPut CH1,OFF")
+    
+    resistance = abs(volts/amps)
+    
+    print(f"\n\nApplied current: {pct.eng_note(amps, 5)}A\nMeasured voltage: {pct.eng_note(volts, 5)}V\nCalculated resistance: {pct.eng_note(resistance, 4)}Ω")
+    
+    return resistance
+    
+    
+    
+    
+    
+if __name__ == '__main__':
+    
+    pct.addr_assign()
+    current_vals = [.01, .1, 1]
+    measure = []
+    
+    for I in current_vals:
+        resistance = four_wire(I)
+        measure.append(f"{I:f},{resistance:f}\n")
+        
+    #Save results to a text file.
+    file = open(f'results_amps_{int(time.time()):d}.csv','w')
+    file.write("AMPS,OHMS\n")
+    for value in measure:
+        file.write(value)
+    file.close()
+    print("Wrote to 'results.csv'")
+        
+        
