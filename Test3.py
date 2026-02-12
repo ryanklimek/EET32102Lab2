@@ -55,7 +55,7 @@ for num in range(num_wires):
         meas_res.append(res)
         i+=1
         time.sleep(120)
-    meas_value.append('\n')
+    meas_res.append('\n')
     if num < num_wires: 
         print("Wire Done. Set up next wire.\n") 
         input("Press ENTER when next wire is set up.") 
