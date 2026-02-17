@@ -1,3 +1,6 @@
+# MUST INSTALL PCT_EET320.py IN SAME FOLDER TO RUN
+# Runs once, then turns off supply.  Wait 2 minutes before running again.
+
 import PCT_EET320 as pct
 import time
 
