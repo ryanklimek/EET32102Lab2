@@ -55,6 +55,7 @@ for num in range(num_wires):
         print(res)
         meas_res.append(res)
         i+=1
+        supply.write("CH1:CURR 0")
         time.sleep(120)
     meas_res.append('\n')
     if num < num_wires: 
@@ -69,5 +70,5 @@ supply.write("OUTPut CH1,OFF")
 with open('Gabloff_EET321_Lab3_Test3.txt', 'a') as results:
     results.write('Detected Waveforms:\n')
     for value in meas_res:
-        results.write(value)
+        results.write(str(value))
     results.write('\n\n')
